@@ -30,7 +30,7 @@ The included playbook calls the following roles to seed content.
 
 ## Instructions
 
-### Ansible Navigator
+### Running the EE from Ansible Navigator
 
 This repository also contains an example playbook that can be run through the Ansible Navigator CLI, or as a template in Ansible Automation controller.  The env vars and parameters are used in [the role](https://github.com/ansible-content-lab/aoc.controller_demo_config/tree/main/roles/controller) that the playbook imports, but the example below contains dummy values.  See [the README](https://github.com/ansible-content-lab/aoc.controller_demo_config/tree/main/roles/controller) for the role regarding all of the variables that can be set.
 
@@ -60,7 +60,7 @@ ansible-navigator run playbook_seed_content.yml \
 --extra-vars "azure_resource_group=sh-rg-peering-demo"
 ```
 
-### Ansible
+### Running everything in the container
 
 It is also possible to run this seeded content container without Ansible CLIs locally.  Follow these steps to use your local container engine to deploy seeded content.  Note that `docker` and `podman` can be used interchangeably in this example.
 
