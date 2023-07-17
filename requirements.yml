@@ -1,0 +1,10 @@
+---
+collections:
+  - name: ansible.controller
+    version: 4.4.0
+  - name: awx.awx
+    version: 22.5.0
+  - name: aoc.controller_demo_config
+    source: https://github.com/ansible-content-lab/aoc.controller_demo_config.git
+    version: v3.0.0
+    type: git

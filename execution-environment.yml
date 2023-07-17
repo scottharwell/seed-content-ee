@@ -1,0 +1,32 @@
+---
+version: 3
+
+dependencies:
+  galaxy: requirements.yml
+  python: requirements.txt
+  system: bindep.txt
+  ansible_core:
+    package_pip: ansible-core==2.15.1
+  ansible_runner:
+    package_pip: ansible-runner==2.3.3
+  python_interpreter:
+    package_system: "python3.11"
+    python_path: "/usr/bin/python3.11"
+
+images:
+  base_image:
+    name: registry.redhat.io/ansible-automation-platform-24/ee-minimal-rhel9:latest
+
+options:
+  package_manager_path: /usr/bin/microdnf
+
+additional_build_files:
+  - src: ansible.cfg
+    dest: configs
+
+additional_build_steps:
+  prepend_galaxy: |
+    COPY _build/configs/ansible.cfg /etc/ansible/ansible.cfg
+    ENV ANSIBLE_GALAXY_SERVER_AUTOMATION_HUB_URL=https://console.redhat.com/api/automation-hub/content/published/
+    ENV ANSIBLE_GALAXY_SERVER_AUTOMATION_HUB_AUTH_URL=https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token
+    ARG ANSIBLE_GALAXY_SERVER_AUTOMATION_HUB_TOKEN

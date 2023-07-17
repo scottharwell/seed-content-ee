@@ -1,0 +1,9 @@
+---
+- name: Seed content into Ansible Automation Controller
+  hosts: localhost
+  connection: local
+  become: false
+  tasks:
+    - name: Use the seed Controller role to put content into Ansible Automation Controller
+      ansible.builtin.include_role:
+        name: aoc.controller_demo_config.controller
