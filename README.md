@@ -24,6 +24,8 @@ The included playbook calls the following roles to seed content.
 
 ## Instructions
 
+### Ansible Navigator
+
 This repository also contains an example playbook that can be run through the Ansible Navigator CLI, or as a template in Ansible Automation controller.  The env vars and parameters are used in [the role](https://github.com/ansible-content-lab/aoc.controller_demo_config) that the playbook imports, but the example below contains dummy values.  See [the README](https://github.com/ansible-content-lab/aoc.controller_demo_config) for the role regarding all of the variables that can be set.
 
 ```bash
@@ -51,3 +53,31 @@ ansible-navigator run playbook_seed_content.yml \
 --extra-vars "session_cookie_age=28800" \
 --extra-vars "azure_resource_group=sh-rg-peering-demo"
 ```
+
+### Ansible
+
+It is also possible to run this seeded content container without Ansible CLIs locally.  Follow these steps to use your local container engine to deploy seeded content.  Note that `docker` and `podman` can be used interchangeably in this example.
+
+1. Enter the container locally on your PC.
+
+    ```bash
+    docker run -it --rm --pull always -v $HOME/.ssh:/home/runner/.ssh quay.io/scottharwell/seed-content-ee:latest /bin/bash
+    ```
+
+2. Set any environment variables required by the role.
+
+    ```bash
+    export CONTROLLER_HOST="controller.123456.ansiblecloud.redhat.com"
+    export CONTROLLER_ADMIN="admin"
+    ...
+    ```
+
+3. Run the playbook.
+
+    ```bash
+    ansible-playbook playbook_seed_content.yml \
+    --extra-vars "{'job_templates': {'ssh_public_key': \"{{ lookup('file','/home/runner/.ssh/id_rsa_azure_demo.pub') }}\", 'admin_password': 'ansible123456' }}" \
+    --extra-vars "{'credentials': { 'ssh_key_data': \"{{ lookup('file','/home/runner/.ssh/id_rsa_azure_demo') }}\" }}" \
+    --extra-vars "session_cookie_age=28800" \
+    --extra-vars "azure_resource_group=sh-rg-peering-demo"
+    ```
