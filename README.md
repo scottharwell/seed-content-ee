@@ -2,6 +2,12 @@
 
 Provided as an example of packing an execution environment that can be used to seed Ansible Automation Controller with content.
 
+This container can be used without needing to build it yourself.  It is published to `quay.io/scottharwell/seed-content-ee`.  You can explore the contents of the container locally by running:
+
+```bash
+docker run -it --rm --pull always quay.io/scottharwell/seed-content-ee:latest /bin/bash
+```
+
 ## Implementation
 
 This EE packages all of the dependencies required to seed Ansible Automation Controller with opinionated / pre-build content that can be used for example purposes or production use cases.
@@ -26,7 +32,7 @@ The included playbook calls the following roles to seed content.
 
 ### Ansible Navigator
 
-This repository also contains an example playbook that can be run through the Ansible Navigator CLI, or as a template in Ansible Automation controller.  The env vars and parameters are used in [the role](https://github.com/ansible-content-lab/aoc.controller_demo_config) that the playbook imports, but the example below contains dummy values.  See [the README](https://github.com/ansible-content-lab/aoc.controller_demo_config) for the role regarding all of the variables that can be set.
+This repository also contains an example playbook that can be run through the Ansible Navigator CLI, or as a template in Ansible Automation controller.  The env vars and parameters are used in [the role](https://github.com/ansible-content-lab/aoc.controller_demo_config/tree/main/roles/controller) that the playbook imports, but the example below contains dummy values.  See [the README](https://github.com/ansible-content-lab/aoc.controller_demo_config/tree/main/roles/controller) for the role regarding all of the variables that can be set.
 
 ```bash
 ansible-navigator run playbook_seed_content.yml \
@@ -58,7 +64,7 @@ ansible-navigator run playbook_seed_content.yml \
 
 It is also possible to run this seeded content container without Ansible CLIs locally.  Follow these steps to use your local container engine to deploy seeded content.  Note that `docker` and `podman` can be used interchangeably in this example.
 
-1. Enter the container locally on your PC.
+1. Enter the container locally on your PC.  Be sure to map any relevant host volumes to the container, like your folder that stores SSH keys that will be added to Automation Controller as credentials.
 
     ```bash
     docker run -it --rm --pull always -v $HOME/.ssh:/home/runner/.ssh quay.io/scottharwell/seed-content-ee:latest /bin/bash
